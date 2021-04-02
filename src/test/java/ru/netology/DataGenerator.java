@@ -3,40 +3,41 @@ package ru.netology;
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
-import io.restassured.specification.RequestSpecification;
 import io.restassured.http.ContentType;
-import lombok.val;
+import io.restassured.specification.RequestSpecification;
 
 import java.util.Locale;
 
 import static io.restassured.RestAssured.given;
-import static ru.netology.DataGeneration.SendQuery.makeRequest;
+import static ru.netology.DataGenerator.SendQuery.makeRequest;
 
-public class DataGeneration {
-    private DataGeneration() {
+
+public class DataGenerator {
+
+    private DataGenerator() {
     }
 
     public static class Registration {
-        private static Faker faker = new Faker(new Locale("eng"));
-
+        private static Faker faker = new Faker(new Locale("en"));
         public static UserInfo generateUser(String status) {
-            val user = new UserInfo(faker.name().fullName(), faker.internet().password(), status);
+            var user = new UserInfo(faker.name().fullName(), faker.internet().password(),status);
             makeRequest(user);
             return user;
         }
 
         public static UserInfo generateWrongLoginUser(String status) {
-            val password = faker.internet().password();
+            var password = faker.internet().password();
             makeRequest(new UserInfo(faker.name().firstName(), password, status));
             return new UserInfo(faker.name().firstName(), password, status);
         }
-
         public static UserInfo generateWrongPasswordUser(String status) {
-            val login = faker.name().firstName();
+            var login = faker.name().firstName();
             makeRequest(new UserInfo(login, faker.internet().password(), status));
             return new UserInfo(login, faker.internet().password(), status);
         }
     }
+
+
 
     public static class SendQuery {
         private static RequestSpecification requestSpec = new RequestSpecBuilder()
@@ -57,7 +58,7 @@ public class DataGeneration {
                     .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
                     .then() // "тогда ожидаем"
                     .statusCode(200); // код 200 OK
-
         }
     }
+
 }
