@@ -17,7 +17,7 @@ public class AuthTest {
     }
 
     @Test
-    void shouldSendFormValid() {
+    void shouldSendValidForm() {
         var validUser=generateUser("active");
         $("[data-test-id=login] input").setValue(validUser.getLogin());
         $("[data-test-id=password] input").setValue(validUser.getPassword());
@@ -26,7 +26,7 @@ public class AuthTest {
     }
 
     @Test
-    void shouldSendFormBlockedUser() {
+    void shouldSendBlockedUser() {
         var blockedUser=generateUser("blocked");
         $("[data-test-id=login] input").setValue(blockedUser.getLogin());
         $("[data-test-id=password] input").setValue(blockedUser.getPassword());
